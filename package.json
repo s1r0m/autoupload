@@ -1,0 +1,16 @@
+{
+  "name": "node-pty-terminal",
+  "version": "1.0.0",
+  "description": "A web-based terminal using Node.js, node-pty, and xterm.js",
+  "main": "server.js",
+  "scripts": {
+    "preinstall": "node install-dependencies.js",
+    "postinstall": "cp node_modules/xterm/css/xterm.css xterm.css && cp node_modules/xterm/lib/xterm.js xterm.js"
+  },
+  "dependencies": {
+    "express": "^4.18.4",
+    "node-pty": "^0.10.1",
+    "socket.io": "^4.7.2",
+    "xterm": "^5.1.0"
+  }
+}

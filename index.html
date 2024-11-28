@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Pty Terminal</title>
+    <link rel="stylesheet" href="xterm.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1e1e1e;
+        }
+        #terminal {
+            width: 80%;
+            height: 80%;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="xterm.js"></script>
+    <script>
+        const socket = io();
+        const term = new Terminal();
+        term.open(document.getElementById('terminal'));
+
+        term.onData(data => {
+            socket.emit('input', data);
+        });
+
+        socket.on('output', data => {
+            term.write(data);
+        });
+    </script>
+</body>
+</html>

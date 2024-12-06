@@ -4,9 +4,16 @@ const path = require('path');
 
 (async () => {
     const htmlFile = 'ok.html';
-    const outputImage = 'ok.jpeg';
     const width = 1080;
     const height = 1080;
+
+    // Check for the output image name as a command-line argument
+    const args = process.argv.slice(2);
+    if (args.length === 0) {
+        console.error("Usage: node script.js <output_image>");
+        process.exit(1);
+    }
+    const outputImage = args[0];
 
     // Check if the HTML file exists
     if (!fs.existsSync(htmlFile)) {

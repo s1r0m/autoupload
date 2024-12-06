@@ -66,8 +66,8 @@ else
 
 $file = 'ok.html';
 file_put_contents($file, $html);
-
-$script = 'ss.js';
+$radm = rand();
+$script = 'ss.js ok'.$radm.'.jpeg';
 $output = null;
 $return_var = null;
 exec("node $script", $output, $return_var);
@@ -81,7 +81,7 @@ if ($return_var === 0) {
 $url = "https://hosting-db4b.onrender.com/upload.php";
 
 // The file path to send
-$filePath = "ok.jpeg";
+$filePath = 'ok'.$radm.'.jpeg';
 
 // Check if the file exists
 if (!file_exists($filePath)) {
@@ -123,7 +123,7 @@ $requestUrl = $apiUrl."?profile_id=6749d20c9be8e4e2b746a499&access_token=2%2F49a
 // JSON data payload
 
 $txt = rawurlencode($content."\n\n".$tags);
-$media = rawurlencode("https://hosting-db4b.onrender.com/ok.jpeg");
+$media = rawurlencode('https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg');
 $data = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.$txt.'&now=1&top=0&media%5Bpicture%5D='.$media.'&media%5Bthumbnail%5D='.$media.'&retweet=&profile_ids%5B0%5D=6749d20c9be8e4e2b746a499&channel_data%5Binstagram%5D%5Bpost_type%5D=post&channel_data%5Binstagram%5D%5Bscheduling_type%5D=direct';
 
 $headers = [

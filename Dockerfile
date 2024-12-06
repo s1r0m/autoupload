@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     php-mbstring \
     php-xml \
     php-zip \
+    php-curl \
     zip \
     unzip \
     python3 \

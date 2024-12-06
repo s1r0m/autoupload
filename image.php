@@ -1,7 +1,7 @@
 <?php
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=10&include_card_data=true');
+curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=20&include_card_data=true');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_ENCODING, ''); // Enables compressed response handling
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -57,7 +57,7 @@ $tags = $tags." #".$tag;
     </div>
 </div>";
 
-if(str_contains(file_get_contents('https://api.bufferapp.com/1/profiles/6749d20c9be8e4e2b746a499/updates/sent.json?access_token=2%2F49a62c2bd99d0bc693076797497772e6ba68a2e2995a778163e0b0985a9fb74f51dbd9cefb9e2049386e3efb8a68dc10cbd5ce459f32e4189588999b4b39bc0d'),$title))
+if(str_contains(file_get_contents('https://api.bufferapp.com/1/profiles/6749d20c9be8e4e2b746a499/updates/sent.json?access_token=2%2F49a62c2bd99d0bc693076797497772e6ba68a2e2995a778163e0b0985a9fb74f51dbd9cefb9e2049386e3efb8a68dc10cbd5ce459f32e4189588999b4b39bc0d'),$content))
 {
 echo "This News is already Uploaded";
 }

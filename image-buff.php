@@ -122,65 +122,48 @@ if (curl_errno($ch)) {
 curl_close($ch);
     
     
+    $apiUrl = "https://api.bufferapp.com/1/updates/create.json";
 
-$txt = $content."\n\n".$tags;
-$media = 'https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg';
+$requestUrl = $apiUrl."?profile_id=6749d20c9be8e4e2b746a499&access_token=2%2F49a62c2bd99d0bc693076797497772e6ba68a2e2995a778163e0b0985a9fb74f51dbd9cefb9e2049386e3efb8a68dc10cbd5ce459f32e4189588999b4b39bc0d&is_draft=false";
 
-// Access Token
-$accessToken = 'IGQWROY2RLeFNkSlBiU1BhZAnc2ZA1RKV0t6VkttT25UblZAVeDNITVYtei1hMGVCaklPeVFxeVQ3TVZAkMi1vVWNGai10X1ZAIeDBqSzlPaG44Yzk2Y2V4a2VIWWl6bk45NmJwUlRLNHl6UTJabnpHV1NjLTU1ZAjM2RXcZD';
+// JSON data payload
 
-$ch = curl_init();
-// Set cURL options for media container creation
-curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, [
-    'image_url' => $media,
-    'caption' => $txt,
-    'access_token' => $accessToken
-]);
+$txt = rawurlencode($content."\n\n".$tags);
+$media = rawurlencode('https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg');
+$data = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.$txt.'&now=1&top=0&media%5Bpicture%5D='.$media.'&media%5Bthumbnail%5D='.$media.'&retweet=&profile_ids%5B0%5D=6749d20c9be8e4e2b746a499&channel_data%5Binstagram%5D%5Bpost_type%5D=post&channel_data%5Binstagram%5D%5Bscheduling_type%5D=direct';
 
-// Execute the request
-$response = curl_exec($ch);
-curl_close($ch);
+$headers = [
+    "Accept: application/json",
+    "x-buffer-client-id: mobileapp-android-8.12.6",
+    "Content-Type: application/x-www-form-urlencoded",
+    "User-Agent: okhttp/4.12.0"
+];
 
-// Decode the response
-$responseData = json_decode($response, true);
-
-if (isset($responseData['id'])) {
-    $containerId = $responseData['id'];
-    echo "Media container created with ID: $containerId\n";
-} else {
-    die("Error creating media container: " . $response);
-}
-
-// Step 2: Publish the Media
+// Initialize cURL session
 $ch = curl_init();
 
-// Set cURL options for media publishing
-curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media_publish");
+// Set cURL options
+curl_setopt($ch, CURLOPT_URL, $requestUrl);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, [
-    'creation_id' => $containerId,
-    'access_token' => $accessToken
-]);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-// Execute the request
+// Execute cURL request
 $response = curl_exec($ch);
-curl_close($ch);
 
-// Decode the response
-$responseData = json_decode($response, true);
-
-if (isset($responseData['id'])) {
-    $mediaId = $responseData['id'];
-    echo "Media published successfully with ID: $mediaId\n";
+// Check for errors
+if ($response === false) {
+    echo "cURL Error: " . curl_error($ch);
 } else {
-    die("Error publishing media: " . $response);
+    // Parse and display response
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    echo "HTTP Code: $httpCode\n";
+    echo "Response: $response\n";
 }
 
-
+// Close cURL session
+curl_close($ch);
     
 } else {
     echo "Failed to execute script. Exit code: $return_var\n";

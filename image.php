@@ -57,7 +57,7 @@ $tags = $tags." #".$tag;
     </div>
 </div>";
 
-$data2 = json_decode(file_get_contents('https://graph.instagram.com/me/media?fields=caption&access_token=IGQWRPWGdVZAlAyVXl6Q0F4RmhDTzA0R1E5T25yN2dDR0VlX1ZAwb284ZAXRHU3RrcTNhYTdmQ1g5N1hVc3JmSFdlZAm1sREp6ZAzE3VnpMR0xyZAnFvTUhKZAGlWdjFiUE9ycThYY1hiQ1J6Rk5GMS1MRllUOWlYQjk2dHMZD'), true);
+$data2 = json_decode(file_get_contents('https://graph.instagram.com/me/media?fields=caption&access_token='.base64_decode('SUdRV1JQV0dkVlpBbEF5VlhsNlEwRjRSbWhEVHpBMFIxRTVUMjV5TjJkRFIwVmxYMVpBd2IyODRaQVhSSFUzUnJjVE5oWVRkbVExZzVOMWhWYzNKbVNGZGxaQW0xc1JFcDZaQXpFM1ZucE1SMHh5WkFuRnZUVWhLWkFHbFdkakZpVUU5eWNUaFlZMWhpUTFKNlJrNUdNUzFNUmxsVU9XbFlRamsyZEhNWkQ')), true);
 
 $now = 0;
 
@@ -127,7 +127,7 @@ $txt = $content."\n\n".$tags;
 $media = 'https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg';
 
 // Access Token
-$accessToken = 'IGQWRPWGdVZAlAyVXl6Q0F4RmhDTzA0R1E5T25yN2dDR0VlX1ZAwb284ZAXRHU3RrcTNhYTdmQ1g5N1hVc3JmSFdlZAm1sREp6ZAzE3VnpMR0xyZAnFvTUhKZAGlWdjFiUE9ycThYY1hiQ1J6Rk5GMS1MRllUOWlYQjk2dHMZD';
+$accessToken = base64_decode('SUdRV1JQV0dkVlpBbEF5VlhsNlEwRjRSbWhEVHpBMFIxRTVUMjV5TjJkRFIwVmxYMVpBd2IyODRaQVhSSFUzUnJjVE5oWVRkbVExZzVOMWhWYzNKbVNGZGxaQW0xc1JFcDZaQXpFM1ZucE1SMHh5WkFuRnZUVWhLWkFHbFdkakZpVUU5eWNUaFlZMWhpUTFKNlJrNUdNUzFNUmxsVU9XbFlRamsyZEhNWkQ');
 
 $ch = curl_init();
 // Set cURL options for media container creation

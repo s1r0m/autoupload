@@ -59,8 +59,7 @@ RUN apt-get install -y \
     fonts-liberation \
     --no-install-recommends
 
-# Install Puppeteer globally
-RUN npm install -g puppeteer
+
 
 # Install Selenium dependencies
 RUN apt-get install -y \
@@ -124,8 +123,8 @@ EXPOSE 8000
 # Start PHP server
 #RUN nohup php -S 0.0.0.0:8000 -c /php.ini > server.log 2>&1 &
 RUN npm install puppeteer
-RUN npm install puppeteer-core
 RUN npm install puppeteer-extra puppeteer-extra-plugin-stealth
 
 # Default command
-CMD ["php", "-S", "0.0.0.0:10000", "-c", "/php.ini"]
+#CMD ["php", "-S", "0.0.0.0:10000", "-c", "/php.ini"]
+CMD ["node", "server.js"]

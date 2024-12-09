@@ -59,7 +59,7 @@ RUN apt-get install -y \
     fonts-liberation \
     --no-install-recommends
 
-
+RUN npm install -g puppeteer
 
 # Install Selenium dependencies
 RUN apt-get install -y \
@@ -126,4 +126,5 @@ RUN npm install puppeteer
 RUN npm install puppeteer-extra puppeteer-extra-plugin-stealth
 
 # Default command
+#CMD ["php", "-S", "0.0.0.0:10000", "-c", "/php.ini"]
 CMD ["node", "server.js"]

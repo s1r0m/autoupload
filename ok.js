@@ -7,7 +7,7 @@ puppeteer.use(StealthPlugin());
 (async () => {
     // Launch Puppeteer in headless mode with root-compatible configurations
     const browser = await puppeteer.launch({
-        headless: true, // Runs in headless mode
+        headless: false, // Runs in headless mode
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox', 

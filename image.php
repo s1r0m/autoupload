@@ -1,7 +1,60 @@
 <?php
-$ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=10&include_card_data=true');
+$accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');
+
+$firebase_url = 'https://flamegarun-default-rtdb.firebaseio.com/inshorts.json';
+
+// Function to send HTTP requests
+function sendRequest($url2, $method2, $dataa2 = null) {
+    $ch2 = curl_init();
+    curl_setopt($ch2, CURLOPT_URL, $url2);
+    curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+
+    if ($method2 === 'PUT' || $method2 === 'PATCH') {
+        curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, $method2);
+        curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($dataa2));
+    }
+
+    if ($method2 === 'POST') {
+        curl_setopt($ch2, CURLOPT_POST, true);
+        curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($dataa2));
+    }
+
+    if ($method2 === 'DELETE') {
+        curl_setopt($ch2, CURLOPT_CUSTOMREQUEST, "DELETE");
+    }
+
+    curl_setopt($ch2, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+    ]);
+
+    $responser2 = curl_exec($ch2);
+    if (curl_errno($ch2)) {
+        echo 'Error:' . curl_error($ch2);
+    }
+    curl_close($ch2);
+    return $responser2;
+}
+
+// Save a string to Firebase
+function saveString($firebase_url, $stringer2) {
+    $dataa2 = ['value' => $stringer2];
+    $responser2 = sendRequest($firebase_url, 'PUT', $dataa2); // Using PUT to overwrite existing data
+    echo "Save Response: " . $responser2 . "\n";
+}
+
+// Read the string from Firebase
+function readString($firebase_url) {
+    $responser2 = sendRequest($firebase_url, 'GET');
+    echo "Read Response: " . $responser2 . "\n";
+}
+
+
+
+$updnews = readString($firebase_url);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=15&include_card_data=true');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_ENCODING, ''); // Enables compressed response handling
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -17,10 +70,37 @@ if (curl_errno($ch)) {
 }
 
 curl_close($ch);
-$totcaption = "";
-if (!empty($data->data->news_list)) {
-    foreach ($data->data->news_list as $newsItem) {
-        if ($newsItem->news_type == "NEWS") {
+
+$tottitle = "";
+$media_ids = [];
+$counter = 0;
+
+if(!empty($data->data->news_list)) {
+
+foreach($data->data->news_list as $newsItemtest) {
+        if($newsItemtest->news_type == "NEWS") {
+            $title = $newsItem->news_obj->title;
+if(str_contains($updnews, $title)) {
+}
+else
+{
+$counter = $counter+1;
+}
+            }
+}
+
+if($counter > 9)
+{
+echo "We are Ready To Go... \n";
+}
+else
+{
+die("Not Enough News");
+}
+
+
+    foreach($data->data->news_list as $newsItem) {
+        if($newsItem->news_type == "NEWS") {
             // Extract details
             $sourceName = $newsItem->news_obj->source_name;
             $title = $newsItem->news_obj->title;
@@ -57,15 +137,8 @@ $tags = $tags." #".$tag;
     </div>
 </div>";
 
-$data2 = json_decode(file_get_contents('https://graph.instagram.com/me/media?fields=caption&access_token='.base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE')), true);
-
-$now = 0;
-
-foreach ($data2['data'] as $media2) {
-    $caption2 = $media2['caption'];
-    $totcaption = $totcaption.$caption2."\n";
-}
-if (str_contains($totcaption, $content)) {
+$tottitle = $tottitle.$title." \n ";
+if (str_contains($updnews, $title)) {
 echo "This News is Already Uploaded! \n";
 }
 else
@@ -127,18 +200,58 @@ $txt = $content."\n\n".$tags;
 $media = 'https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg';
 
 // Access Token
-$accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');
 
 $ch = curl_init();
 // Set cURL options for media container creation
 curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, [
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+    'is_carousel_item' => true,
     'image_url' => $media,
     'caption' => $txt,
     'access_token' => $accessToken
-]);
+]));
+
+// Execute the request
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Decode the response
+$responseData = json_decode($response, true);
+
+if(isset($responseData['id'])) {
+    $containerId = $responseData['id'];
+    echo "Media container created with ID: $containerId\n";
+    $media_ids[] = $containerId;
+} else {
+    die("Error creating media container: " . $response);
+}
+
+if(count($media_ids) === 10) {
+        break; 
+    }
+    
+} else {
+    echo "Failed to execute script. Exit code: $return_var\n";
+}
+            
+}
+        }
+        
+    }
+    
+    if(count($media_ids) === 10) {
+    $ch = curl_init();
+// Set cURL options for media container creation
+curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+    'media_type' => 'CAROUSEL',
+    'children' => implode(',', $media_ids),
+    'access_token' => $accessToken
+]));
 
 // Execute the request
 $response = curl_exec($ch);
@@ -149,12 +262,13 @@ $responseData = json_decode($response, true);
 
 if (isset($responseData['id'])) {
     $containerId = $responseData['id'];
-    echo "Media container created with ID: $containerId\n";
+    echo "Media Crousel 10 container created with ID: $containerId\n";
 } else {
     die("Error creating media container: " . $response);
 }
-
-// Step 2: Publish the Media
+    
+    
+    // Step 3: Publish the Media
 $ch = curl_init();
 
 // Set cURL options for media publishing
@@ -173,22 +287,17 @@ curl_close($ch);
 // Decode the response
 $responseData = json_decode($response, true);
 
-if (isset($responseData['id'])) {
+if(isset($responseData['id'])) {
     $mediaId = $responseData['id'];
     echo "Media published successfully with ID: $mediaId\n";
+    
+    saveString($firebase_url, $tottitle);
+    
 } else {
     die("Error publishing media: " . $response);
 }
-
-
-    
-} else {
-    echo "Failed to execute script. Exit code: $return_var\n";
-}
-            
-}
-        }
     }
+    
 } else {
     echo "No news data available.";
 }

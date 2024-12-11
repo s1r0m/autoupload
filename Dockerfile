@@ -126,5 +126,4 @@ RUN npm install puppeteer
 RUN npm install puppeteer-extra puppeteer-extra-plugin-stealth
 
 # Default command
-#CMD ["php", "-S", "0.0.0.0:10000", "-c", "/php.ini"]
-CMD ["node", "server.js"]
+CMD ["php", "-S", "0.0.0.0:10000", "-c", "/php.ini"]

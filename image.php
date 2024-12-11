@@ -54,7 +54,7 @@ function readString($firebase_url) {
 $updnews = readString($firebase_url);
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=15&include_card_data=true');
+curl_setopt($ch, CURLOPT_URL, 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=7&include_card_data=true');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_ENCODING, ''); // Enables compressed response handling
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -90,7 +90,7 @@ $counter = $counter+1;
             }
 }
 
-if($counter > 9)
+if($counter > 4)
 {
 echo "We are Ready To Go... \n";
 }
@@ -231,7 +231,7 @@ if(isset($responseData['id'])) {
     die("Error creating media container: " . $response);
 }
 
-if(count($media_ids) === 10) {
+if(count($media_ids) === 5) {
         break; 
     }
     
@@ -244,7 +244,8 @@ if(count($media_ids) === 10) {
         
     }
     
-    if(count($media_ids) === 10) {
+    if(count($media_ids) === 5) {
+Echo "\n Total Caption Length: ".strlen($totcaption);
     $ch = curl_init();
 // Set cURL options for media container creation
 curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media");
@@ -263,10 +264,10 @@ curl_close($ch);
 
 // Decode the response
 $responseData = json_decode($response, true);
-
+Echo $response;
 if (isset($responseData['id'])) {
     $containerId = $responseData['id'];
-    echo "Media Crousel 10 container created with ID: $containerId\n";
+    echo "Media Crousel 5 container created with ID: $containerId\n";
 } else {
     die("Error creating media container: " . $response);
 }

@@ -46,7 +46,7 @@ function saveString($firebase_url, $stringer2) {
 // Read the string from Firebase
 function readString($firebase_url) {
     $responser2 = sendRequest($firebase_url, 'GET');
-    echo "Read Response: " . $responser2 . "\n";
+    return $responser2." ";
 }
 
 
@@ -72,6 +72,7 @@ if (curl_errno($ch)) {
 curl_close($ch);
 
 $tottitle = "";
+$totcaption = "";
 $media_ids = [];
 $counter = 0;
 
@@ -79,7 +80,7 @@ if(!empty($data->data->news_list)) {
 
 foreach($data->data->news_list as $newsItemtest) {
         if($newsItemtest->news_type == "NEWS") {
-            $title = $newsItem->news_obj->title;
+            $title = $newsItemtest->news_obj->title;
 if(str_contains($updnews, $title)) {
 }
 else
@@ -196,7 +197,7 @@ curl_close($ch);
     
     
 
-$txt = $content."\n\n".$tags;
+$txt = $content."\n".$tags."\n\n";
 $media = 'https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg';
 
 // Access Token
@@ -209,7 +210,6 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
     'is_carousel_item' => true,
     'image_url' => $media,
-    'caption' => $txt,
     'access_token' => $accessToken
 ]));
 
@@ -223,6 +223,9 @@ $responseData = json_decode($response, true);
 if(isset($responseData['id'])) {
     $containerId = $responseData['id'];
     echo "Media container created with ID: $containerId\n";
+    
+    $totcaption = $totcaption.$txt;
+    
     $media_ids[] = $containerId;
 } else {
     die("Error creating media container: " . $response);
@@ -250,6 +253,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
     'media_type' => 'CAROUSEL',
     'children' => implode(',', $media_ids),
+    'caption' => $totcaption,
     'access_token' => $accessToken
 ]));
 

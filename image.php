@@ -261,6 +261,7 @@ echo $responseui."\n";
 else
 {
 echo "Using Stored Media Container with ID: $stormedid \n";
+$txt = $content."\n".$tags."\n\n";
 $totcaption = $totcaption.$txt;
 $media_ids[] = $stormedid;
 }

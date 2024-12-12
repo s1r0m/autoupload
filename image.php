@@ -1,4 +1,6 @@
 <?php
+header('Connection: keep-alive'); // Keep the connection alive
+http_response_code(200); // Always return status 200
 
 $accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');
 
@@ -144,6 +146,10 @@ echo "This News is Already Uploaded! \n";
 }
 else
 {
+$stormedid = strval(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/inmd5/".md5($title).".json")).'';
+if(strlen($stormedid) < 5)
+{
+
 $file = 'ok.html';
 file_put_contents($file, $html);
 $radm = rand();
@@ -202,6 +208,7 @@ $media = 'https://hosting-db4b.onrender.com/ok'.$radm.'.jpeg';
 
 // Access Token
 
+
 $ch = curl_init();
 // Set cURL options for media container creation
 curl_setopt($ch, CURLOPT_URL, "https://graph.instagram.com/me/media");
@@ -224,6 +231,19 @@ if(isset($responseData['id'])) {
     $containerId = $responseData['id'];
     echo "Media container created with ID: $containerId\n";
     
+    
+$key = md5($title);
+$dataToWrite = json_encode([$key => $containerId]);
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "https://flamegarun-default-rtdb.firebaseio.com/inmd5.json");
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $dataToWrite);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$responseui = curl_exec($ch);
+curl_close($ch);
+
+echo $responseui."\n";
+    
     $totcaption = $totcaption.$txt;
     
     $media_ids[] = $containerId;
@@ -231,13 +251,23 @@ if(isset($responseData['id'])) {
     die("Error creating media container: " . $response);
 }
 
-if(count($media_ids) === 5) {
-        break; 
-    }
+
     
 } else {
     echo "Failed to execute script. Exit code: $return_var\n";
 }
+
+}
+else
+{
+echo "Using Stored Media Container with ID: $stormedid \n";
+$totcaption = $totcaption.$txt;
+$media_ids[] = $stormedid;
+}
+
+if(count($media_ids) === 5) {
+        break; 
+    }
             
 }
         }
@@ -297,6 +327,22 @@ if(isset($responseData['id'])) {
     echo "Media published successfully with ID: $mediaId\n";
     
     saveString($firebase_url, $tottitle);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "https://flamegarun-default-rtdb.firebaseio.com/inmd5.json");
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE"); // DELETE request
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Execute the request
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Output the response
+if ($response === null || $response === 'null') {
+    echo "All data under 'inmd5.json' has been deleted successfully.\n";
+} else {
+    echo "Failed to delete data. Response: " . $response . "\n";
+}
     
 } else {
     die("Error publishing media: " . $response);

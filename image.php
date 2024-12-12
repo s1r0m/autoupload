@@ -146,8 +146,8 @@ echo "This News is Already Uploaded! \n";
 }
 else
 {
-$stormedid = strval(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/inmd5/".md5($title).".json")).'';
-if(strlen($stormedid) < 5)
+$stormedid = intval(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/inmd5/".md5($title).".json"));
+if(strlen(strval($stormedid)) < 5)
 {
 
 $file = 'ok.html';
@@ -276,6 +276,9 @@ if(count($media_ids) === 5) {
     }
     
     if(count($media_ids) === 5) {
+
+Echo implode(',', $media_ids);
+
 Echo "\n Total Caption Length: ".strlen($totcaption);
     $ch = curl_init();
 // Set cURL options for media container creation

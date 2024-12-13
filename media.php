@@ -5,7 +5,7 @@ $firebaseNewsUrl = 'https://flamegarun-default-rtdb.firebaseio.com/inshorts.json
 $firebaseMd5Url = 'https://flamegarun-default-rtdb.firebaseio.com/inmd5.json';
 
 // Inshorts API URL
-$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=7&include_card_data=true';
+$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=3&include_card_data=true';
 
 // Access Token for Instagram
 $accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');

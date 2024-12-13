@@ -1,6 +1,13 @@
 <?php
-header('Connection: keep-alive'); // Keep the connection alive
-http_response_code(200); // Always return status 200
+$datata = json_decode(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/inmd5.json"), true);
+
+// Check if $data is an array and count key-value pairs
+if (is_array($datata) && count($datata) > 9) {
+    
+    
+    die("Work Done");
+}
+
 
 $accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');
 
@@ -233,7 +240,10 @@ if(isset($responseData['id'])) {
     
     
 $key = md5($title);
-$dataToWrite = json_encode([$key => $containerId]);
+$dataToWrite = json_encode([
+    $key => $containerId,
+    $containerId => $txt
+]);
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "https://flamegarun-default-rtdb.firebaseio.com/inmd5.json");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");

@@ -72,7 +72,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         $title = $newsItem['news_obj']['title'];
         $content = $newsItem['news_obj']['content'];
         $imageUrl = $newsItem['news_obj']['image_url'];
-        $tags = implode(' \n', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
+        $tags = implode(' ', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
 
         $titleMd5 = md5($title);
         if(str_contains(json_encode($processedNewsData), $titleMd5)) {

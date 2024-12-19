@@ -4,8 +4,8 @@ const path = require('path');
 
 (async () => {
     const htmlFile = 'threads.html';
-    const width = 1070;
-    const height = 1424;
+    const width = 672;
+    const height = 192;
 
     // Check for the output image name as a command-line argument
     const args = process.argv.slice(2);

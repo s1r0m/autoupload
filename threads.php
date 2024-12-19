@@ -72,7 +72,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         $title = $newsItem['news_obj']['title'];
         $content = $newsItem['news_obj']['content'];
         $imageUrl = $newsItem['news_obj']['image_url'];
-        $tags = implode(' ', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
+        $tags = implode(' \n', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
 
         $titleMd5 = md5($title);
         if(str_contains(json_encode($processedNewsData), $titleMd5)) {
@@ -127,7 +127,7 @@ $outputFile = "thrd$titleMd5.jpeg";
         $url = "https://graph.threads.net/me/threads";
 $url .= "?media_type=IMAGE";
 $url .= "&image_url=" . urlencode("https://hosting-db4b.onrender.com/".$outputFile);
-$url .= "&text=" . urlencode($title."\n\n".$content."\n\n".$tags);
+$url .= "&text=" . urlencode($content."\n\n".$tags);
 $url .= "&access_token=".$accessToken;
 
 // Initialize cURL

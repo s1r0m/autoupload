@@ -110,7 +110,7 @@ $outputFile = "thrd$titleMd5.jpeg";
         }
 
         // Upload image to external server
-        $uploadUrl = "https://hosting-db4b.onrender.com/upload.php";
+        $uploadUrl = "https://hosting-atm2.onrender.com/upload.php";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -126,7 +126,7 @@ $outputFile = "thrd$titleMd5.jpeg";
         
         $url = "https://graph.threads.net/me/threads";
 $url .= "?media_type=IMAGE";
-$url .= "&image_url=" . urlencode("https://hosting-db4b.onrender.com/".$outputFile);
+$url .= "&image_url=" . urlencode("https://hosting-atm2.onrender.com/".$outputFile);
 $url .= "&text=" . urlencode($content."\n\n".$tags);
 $url .= "&access_token=".$accessToken;
 

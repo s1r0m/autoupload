@@ -127,7 +127,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         }
 
         // Upload image to external server
-        $uploadUrl = "https://hosting-db4b.onrender.com/upload.php";
+        $uploadUrl = "https://hosting-atm2.onrender.com/upload.php";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -143,7 +143,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         $mediaContainerUrl = "https://graph.instagram.com/me/media";
         $mediaData = [
             'is_carousel_item' => true,
-            'image_url' => "https://hosting-db4b.onrender.com/$outputFile",
+            'image_url' => "https://hosting-atm2.onrender.com/$outputFile",
             'access_token' => $accessToken,
         ];
 

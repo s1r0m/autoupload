@@ -99,6 +99,8 @@ $publishResponse = sendRequest($publishUrl, 'POST', $publishData);
 $publishResult = json_decode($publishResponse, true);
 
 if (!isset($publishResult['id'])) {
+    sendRequest("https://flamegarun-default-rtdb.firebaseio.com/inmd5.json", 'DELETE');
+sleep(3);
     die("Error publishing carousel: $publishResponse");
 }
 

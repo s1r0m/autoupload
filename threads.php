@@ -70,7 +70,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         // Extract news details
         $sourceName = $newsItem['news_obj']['source_name'];
         $title = $newsItem['news_obj']['title'];
-        $content = $newsItem['news_obj']['content'];
+        $content = $newsItem['news_obj']['content']." \n instagram.com/buzz.indica";
         $imageUrl = $newsItem['news_obj']['image_url'];
         $tags = implode(' ', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
 
@@ -110,7 +110,7 @@ $outputFile = "thrd$titleMd5.jpeg";
         }
 
         // Upload image to external server
-        $uploadUrl = "https://hosting-atm2.onrender.com/upload.php";
+        $uploadUrl = "https://hosting-db4b.onrender.com/upload.php";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -126,7 +126,7 @@ $outputFile = "thrd$titleMd5.jpeg";
         
         $url = "https://graph.threads.net/me/threads";
 $url .= "?media_type=IMAGE";
-$url .= "&image_url=" . urlencode("https://hosting-atm2.onrender.com/".$outputFile);
+$url .= "&image_url=" . urlencode("https://hosting-db4b.onrender.com/".$outputFile);
 $url .= "&text=" . urlencode($content."\n\n".$tags);
 $url .= "&access_token=".$accessToken;
 

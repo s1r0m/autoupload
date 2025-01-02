@@ -127,7 +127,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         }
 
         // Upload image to external server
-        $uploadUrl = "https://hosting-atm2.onrender.com/upload.php";
+        $uploadUrl = "https://hosting-db4b.onrender.com/upload.php";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -143,7 +143,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         $mediaContainerUrl = "https://graph.instagram.com/me/media";
         $mediaData = [
             'is_carousel_item' => true,
-            'image_url' => "https://hosting-atm2.onrender.com/$outputFile",
+            'image_url' => "https://hosting-db4b.onrender.com/$outputFile",
             'access_token' => $accessToken,
         ];
 
@@ -161,7 +161,70 @@ if (!empty($inshortsData['data']['news_list'])) {
             $mediaContainerId => $caption,
         ];
 
-        sendRequest($firebaseMd5Url, 'PATCH', $updateData);
+       echo sendRequest($firebaseMd5Url, 'PATCH', $updateData);
+        
+        
+        
+        //Twitter 
+        
+        
+function uploadFileToFirebase($filePath, $fileName, $tit) {
+    $bucketUrl = "https://firebasestorage.googleapis.com/v0/b/flamegarun.appspot.com/o";
+    $file = fopen($filePath, 'r');
+    $fileData = fread($file, filesize($filePath));
+    fclose($file);
+
+    $boundary = uniqid();
+    $headers = [
+        "Content-Type: multipart/related; boundary={$boundary}",
+    ];
+
+    $body = "--{$boundary}\r\n";
+    $body .= "Content-Type: application/octet-stream\r\n";
+    $body .= "Content-Disposition: form-data; name=\"file\"; filename=\"{$fileName}\"\r\n\r\n";
+    $body .= $fileData . "\r\n";
+    $body .= "--{$boundary}--";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "{$bucketUrl}?uploadType=media&name={$fileName}");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode == 200) {
+        echo "File uploaded successfully.\n";
+        echo $response;
+        
+$updateData = [
+    str_replace(".","-",$fileName) => [ 
+        "url" => "https://firebasestorage.googleapis.com/v0/b/flamegarun.appspot.com/o/" . $fileName . "?alt=media&token=" . json_decode($response)->downloadTokens,
+        "title" => $tit,
+    ]
+];
+
+// Convert the array to JSON
+
+// Send the request
+echo sendRequest("https://flamegarun-default-rtdb.firebaseio.com/x.json", 'PATCH', $updateData);
+        
+    } else {
+        echo "File upload failed.\n";
+        echo $response;
+    }
+}
+
+// Example Usage
+$filePath = "ok$titleMd5.jpeg";
+$fileName = "ok$titleMd5.jpeg";
+uploadFileToFirebase($filePath, $fileName, $title." \n".$tags);
+        
+        
+        
 
         // Stop execution to comply with 30-second cron job limit
         die("Processed news: $title");

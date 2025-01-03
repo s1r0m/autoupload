@@ -99,6 +99,38 @@ $data = fetchDataFromFirebase($firebaseUrl);
 // Check if the number of keys is at least 4
 echo count($data);
 if (count($data) < 2) {
+
+
+function listFilesFromFirebase() {
+    $bucketUrl = "https://firebasestorage.googleapis.com/v0/b/flamegarun.appspot.com/o";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $bucketUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode == 200) {
+        $files = json_decode($response, true);
+        foreach ($files['items'] as $file) {
+        $name = str_replace(".","-",$file['name']);
+        $conx = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/x/$name.json");
+if($conx == "null" or $conx == null)
+{
+echo $name."\n";
+deleteFileFromFirebase(str_replace("-",".",$name));
+}
+        }
+    } else {
+        echo "Failed to list files.\n";
+        echo $response;
+    }
+}
+
+// Example Usage
+listFilesFromFirebase();
+
+
     die("Data has fewer than 2 keys.");
 }
 

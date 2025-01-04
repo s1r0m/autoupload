@@ -98,7 +98,7 @@ $data = fetchDataFromFirebase($firebaseUrl);
 
 // Check if the number of keys is at least 4
 echo count($data);
-if (count($data) < 2) {
+if (count($data) < 4) {
 
 
 function listFilesFromFirebase() {
@@ -131,10 +131,53 @@ deleteFileFromFirebase(str_replace("-",".",$name));
 listFilesFromFirebase();
 
 
-    die("Data has fewer than 2 keys.");
+    die("Data has fewer than 4 keys.");
 }
 
 // Get 4 keys and extract their `url` and `title`
+$keys = array_slice(array_keys($data), 0, 4);
+$selectedData = [];
+foreach ($keys as $key) {
+    $selectedData[] = [
+        "key" => $key,
+        "title" => $data[$key]['title'],
+        "url" => $data[$key]['url']
+    ];
+}
+
+$tottit = "Breaking News 📰🚨 \n\n"."";
+
+foreach ($selectedData as $item) {
+    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+}
+
+$postnum = 4;
+
+if(strlen($tottit) > 280)
+{
+$keys = [];
+$keys = array_slice(array_keys($data), 0, 3);
+$selectedData = [];
+foreach ($keys as $key) {
+    $selectedData[] = [
+        "key" => $key,
+        "title" => $data[$key]['title'],
+        "url" => $data[$key]['url']
+    ];
+}
+
+$tottit = "Breaking News 📰🚨 \n\n"."";
+
+foreach ($selectedData as $item) {
+    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+}
+
+$postnum = 3;
+}
+
+if(strlen($tottit) > 280)
+{
+$keys = [];
 $keys = array_slice(array_keys($data), 0, 2);
 $selectedData = [];
 foreach ($keys as $key) {
@@ -145,13 +188,25 @@ foreach ($keys as $key) {
     ];
 }
 
+$tottit = "Breaking News 📰🚨 \n\n"."";
+
+foreach ($selectedData as $item) {
+    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+}
+
+$postnum = 2;
+}
+
+
 $img1 = 1;
 $img2 = 2;
 $img3 = 3;
 $img4 = 4;
-$tottit = "";
+$tottit = "Breaking News 📰🚨 \n\n"."";
 
 // Print the selected data
+if($postnum == 2)
+{
 foreach ($selectedData as $item) {
    // echo "Title: " . $item['title'] . "\n";
    // echo "URL: " . $item['url'] . "\n\n";
@@ -168,6 +223,76 @@ foreach ($selectedData as $item) {
     $img3 = 3;
     }
 }
+$body = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.rawurlencode($tottit).'&fb_text='.rawurlencode($tottit).'&now=1&top=0&media%5Bpicture%5D='.rawurlencode($img1).'&media%5Bthumbnail%5D='.rawurlencode($img1).'&extra_media%5B0%5D%5Bphoto%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Bthumbnail%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Buploaded%5D=true&extra_media%5B0%5D%5Bprogress%5D=100&retweet=&profile_ids%5B0%5D=677551054697c1deff366e9e';
+}
+
+$img1 = 1;
+$img2 = 2;
+$img3 = 3;
+$img4 = 4;
+$tottit = "Breaking News 📰🚨 \n\n"."";
+
+if($postnum == 3)
+{
+foreach ($selectedData as $item) {
+   // echo "Title: " . $item['title'] . "\n";
+   // echo "URL: " . $item['url'] . "\n\n";
+    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    
+    if($img1 == 1)
+    {
+    $img1 = $item['url'];
+    $img2 = 2;
+    }
+    else if($img2 == 2)
+    {
+    $img2 = $item['url'];
+    $img3 = 3;
+    }
+    else
+    {
+    $img3 = $item['url'];
+    $img4 = 4;
+    }
+}
+$body = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.rawurlencode($tottit).'&fb_text='.rawurlencode($tottit).'&now=1&top=0&media%5Bpicture%5D='.rawurlencode($img1).'&media%5Bthumbnail%5D='.rawurlencode($img1).'&extra_media%5B0%5D%5Bphoto%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Bthumbnail%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Buploaded%5D=true&extra_media%5B0%5D%5Bprogress%5D=100&extra_media%5B1%5D%5Bphoto%5D='.rawurlencode($img3).'&extra_media%5B1%5D%5Bthumbnail%5D='.rawurlencode($img3).'&extra_media%5B1%5D%5Buploaded%5D=true&extra_media%5B1%5D%5Bprogress%5D=100&retweet=&profile_ids%5B0%5D=677551054697c1deff366e9e';
+}
+
+$img1 = 1;
+$img2 = 2;
+$img3 = 3;
+$img4 = 4;
+$tottit = "Breaking News 📰🚨 \n\n"."";
+
+if($postnum == 4)
+{
+foreach ($selectedData as $item) {
+   // echo "Title: " . $item['title'] . "\n";
+   // echo "URL: " . $item['url'] . "\n\n";
+    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    
+    if($img1 == 1)
+    {
+    $img1 = $item['url'];
+    $img2 = 2;
+    }
+    else if($img2 == 2)
+    {
+    $img2 = $item['url'];
+    $img3 = 3;
+    }
+    else if($img3 == 3)
+    {
+    $img3 = $item['url'];
+    $img4 = 4;
+    }
+    else
+    {
+    $img4 = $item['url'];
+    }
+}
+$body = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.rawurlencode($tottit).'&fb_text='.rawurlencode($tottit).'&now=1&top=0&media%5Bpicture%5D='.rawurlencode($img1).'&media%5Bthumbnail%5D='.rawurlencode($img1).'&extra_media%5B0%5D%5Bphoto%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Bthumbnail%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Buploaded%5D=true&extra_media%5B0%5D%5Bprogress%5D=100&extra_media%5B1%5D%5Bphoto%5D='.rawurlencode($img3).'&extra_media%5B1%5D%5Bthumbnail%5D='.rawurlencode($img3).'&extra_media%5B1%5D%5Buploaded%5D=true&extra_media%5B1%5D%5Bprogress%5D=100&extra_media%5B2%5D%5Bphoto%5D='.rawurlencode($img4).'&extra_media%5B2%5D%5Bthumbnail%5D='.rawurlencode($img4).'&extra_media%5B2%5D%5Buploaded%5D=true&extra_media%5B2%5D%5Bprogress%5D=100&retweet=&profile_ids%5B0%5D=677551054697c1deff366e9e';
+}
 
 
 // URL
@@ -182,7 +307,6 @@ $headers = [
 ];
 
 // Body
-$body = 'client_id=4e9680b8512f7e6b22000000&client_secret=16d821b11ca1f54c0047581c7e3ca25f&created_source=queue&text='.rawurlencode("Breaking News 📰🚨 \n\n".$tottit).'&fb_text='.rawurlencode($tottit).'&now=1&top=0&media%5Bpicture%5D='.rawurlencode($img1).'&media%5Bthumbnail%5D='.rawurlencode($img1).'&extra_media%5B0%5D%5Bphoto%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Bthumbnail%5D='.rawurlencode($img2).'&extra_media%5B0%5D%5Buploaded%5D=true&extra_media%5B0%5D%5Bprogress%5D=100&retweet=&profile_ids%5B0%5D=677551054697c1deff366e9e';
 
 // Send the request
 sendBufferRequest($url, $headers, $body);

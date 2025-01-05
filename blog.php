@@ -127,10 +127,12 @@ function sendRequest($url, $method, $data = null)
     curl_close($ch);
     return $response;
 }
-
+Print_r($client->isAccessTokenExpired());
 if ($client->isAccessTokenExpired()) {
-    $client->fetchAccessTokenWithRefreshToken(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/reftoken.json"));
-    sendRequest("https://flamegarun-default-rtdb.firebaseio.com/token.json", 'PUT', ['value' => $client->getAccessToken()]);
+$reftok = str_replace('"','',sendGetRequest("https://flamegarun-default-rtdb.firebaseio.com/token/value/refresh_token.json"));
+Echo $reftok;
+    $client->fetchAccessTokenWithRefreshToken($reftok);
+   echo sendRequest("https://flamegarun-default-rtdb.firebaseio.com/token.json", 'PUT', ['value' => $client->getAccessToken()]);
 }
 
 // Fetch data from Inshorts API
@@ -224,7 +226,7 @@ function createBloggerPost($accessToken, $blogId, $title, $imageUrl, $content, $
 }
 
 // Example usage
-$accessToken = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/token/value.json");
+$accessToken = sendGetRequest("https://flamegarun-default-rtdb.firebaseio.com/token/value/access_token.json");
 
 $blogId = '852776495822446883';
 
@@ -286,7 +288,11 @@ die("No Content");
 
 if(strlen($contant) < 10)
 {
-die("ni content");
+$contant = str_replace('*','',summ($content));
+}
+if(strlen($contant) < 10)
+{
+$contant = $content;
 }
 
 $response = createBloggerPost($accessToken, $blogId, $title, $imageUrl, $contant, $labels);

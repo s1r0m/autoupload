@@ -145,10 +145,10 @@ foreach ($keys as $key) {
     ];
 }
 
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 foreach ($selectedData as $item) {
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
 }
 
 $postnum = 4;
@@ -166,10 +166,10 @@ foreach ($keys as $key) {
     ];
 }
 
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 foreach ($selectedData as $item) {
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
 }
 
 $postnum = 3;
@@ -188,10 +188,10 @@ foreach ($keys as $key) {
     ];
 }
 
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 foreach ($selectedData as $item) {
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
 }
 
 $postnum = 2;
@@ -202,7 +202,7 @@ $img1 = 1;
 $img2 = 2;
 $img3 = 3;
 $img4 = 4;
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 // Print the selected data
 if($postnum == 2)
@@ -210,7 +210,7 @@ if($postnum == 2)
 foreach ($selectedData as $item) {
    // echo "Title: " . $item['title'] . "\n";
    // echo "URL: " . $item['url'] . "\n\n";
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
     
     if($img1 == 1)
     {
@@ -230,14 +230,14 @@ $img1 = 1;
 $img2 = 2;
 $img3 = 3;
 $img4 = 4;
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 if($postnum == 3)
 {
 foreach ($selectedData as $item) {
    // echo "Title: " . $item['title'] . "\n";
    // echo "URL: " . $item['url'] . "\n\n";
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
     
     if($img1 == 1)
     {
@@ -262,14 +262,14 @@ $img1 = 1;
 $img2 = 2;
 $img3 = 3;
 $img4 = 4;
-$tottit = "Breaking News 📰🚨 \n\n"."";
+$tottit = ""."";
 
 if($postnum == 4)
 {
 foreach ($selectedData as $item) {
    // echo "Title: " . $item['title'] . "\n";
    // echo "URL: " . $item['url'] . "\n\n";
-    $tottit = $tottit."✴️ ".$item['title'] . "\n\n";
+    $tottit = $tottit."🚨 ".$item['title'] . "\n\n";
     
     if($img1 == 1)
     {

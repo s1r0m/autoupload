@@ -1,10 +1,43 @@
 <?php
+require_once 'vendor/autoload.php';
+
+$client = new Google_Client();
+$client->setClientId('53692494341-nomiqu7c6gtfbu7dqu6hcv5nrgjh9ae1.apps.googleusercontent.com');
+$client->setClientSecret('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');
+$client->setRedirectUri('https://blogger-jegv.onrender.com/blog.php');
+$client->addScope('https://www.googleapis.com/auth/blogger');
 
 // Firebase URLs
 $firebaseNewsUrl = 'https://flamegarun-default-rtdb.firebaseio.com/blog.json';
 
 // Inshorts API URL
 $inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=1&include_card_data=true';
+
+function sendGetRequest($url) {
+    // Initialize cURL session
+    $ch = curl_init();
+
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30); // Set timeout (optional)
+
+    // Execute cURL request
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        throw new Exception("cURL error: " . $error);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+
+    return $response;
+}
 
 function summ($sumtxt)
 {
@@ -93,6 +126,11 @@ function sendRequest($url, $method, $data = null)
 
     curl_close($ch);
     return $response;
+}
+
+if ($client->isAccessTokenExpired()) {
+    $client->fetchAccessTokenWithRefreshToken(file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/reftoken.json"));
+    sendRequest("https://flamegarun-default-rtdb.firebaseio.com/token.json", 'PUT', ['value' => $client->getAccessToken()]);
 }
 
 // Fetch data from Inshorts API
@@ -186,15 +224,72 @@ function createBloggerPost($accessToken, $blogId, $title, $imageUrl, $content, $
 }
 
 // Example usage
-$accessToken = base64_decode('eWEyOS5hMEFSVzVtNzZ1ekNKYUpBbk5oN3hQOXpRRlFTQlZkZkVJd3VsekVaQ052dHFEbjcyOVQzeENrVXBpZXpVVU9ZLTBCRXRsc1ROSzlmZTZadUl2ZU9lWFBKY29QcnlxQ0xOOGxaVVdYY1FNaG9nZS1EQUhUQ1lIUjFvc0E4Q0djRnB1NXFVSVUxRVgwMlFMdVJRV1VqdWFWR05NNXN3d1E4eEpfZ2FDZ1lLQWZRU0FSQVNGUUhHWDJNaThFQy1yeVN4VmlzNWd6VmZlUGZaWncwMTY5');
+$accessToken = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/token/value.json");
 
 $blogId = '852776495822446883';
 
 $labels = $tags;
 
-$content = file_get_contents($sourceurl);
+$contant = "";
+try {
+    $contento = sendGetRequest($sourceurl);
+    $contant = str_replace('*','',summ($contento));
+  if(str_contains($contant,"html"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"HTML"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"Html"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"à"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"á"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"â"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"ä"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"ā"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"å"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"ã"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"æ"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+die("No Content");
+}
 
-$response = createBloggerPost($accessToken, $blogId, $title, $imageUrl, str_replace('*','',summ($content)), $labels);
+if(strlen($contant) < 10)
+{
+die("ni content");
+}
+
+$response = createBloggerPost($accessToken, $blogId, $title, $imageUrl, $contant, $labels);
 
 
 if ($response) {

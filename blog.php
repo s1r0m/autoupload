@@ -127,13 +127,7 @@ function sendRequest($url, $method, $data = null)
     curl_close($ch);
     return $response;
 }
-Print_r($client->isAccessTokenExpired());
-if ($client->isAccessTokenExpired()) {
-$reftok = str_replace('"','',sendGetRequest("https://flamegarun-default-rtdb.firebaseio.com/token/value/refresh_token.json"));
-Echo $reftok;
-    $client->fetchAccessTokenWithRefreshToken($reftok);
-   echo sendRequest("https://flamegarun-default-rtdb.firebaseio.com/token.json", 'PUT', ['value' => $client->getAccessToken()]);
-}
+
 
 // Fetch data from Inshorts API
 $ch = curl_init();
@@ -226,6 +220,15 @@ function createBloggerPost($accessToken, $blogId, $title, $imageUrl, $content, $
 }
 
 // Example usage
+
+Print_r($client->isAccessTokenExpired());
+if ($client->isAccessTokenExpired()) {
+$reftok = str_replace('"','',sendGetRequest("https://flamegarun-default-rtdb.firebaseio.com/token/value/refresh_token.json"));
+Echo $reftok;
+    $client->fetchAccessTokenWithRefreshToken($reftok);
+   echo sendRequest("https://flamegarun-default-rtdb.firebaseio.com/token.json", 'PUT', ['value' => $client->getAccessToken()]);
+}
+
 $accessToken = sendGetRequest("https://flamegarun-default-rtdb.firebaseio.com/token/value/access_token.json");
 
 $blogId = '852776495822446883';

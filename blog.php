@@ -280,6 +280,10 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
+  if(str_contains($contant,"и"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
   
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();

@@ -300,7 +300,7 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
-  if(str_contains($contant,"site administrator"))
+  if(str_contains($contant,"site"))
   {
   $contant = str_replace('*','',summ($content));
   }

@@ -304,6 +304,10 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
+  if(str_contains($contant,"Access Denied"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
   
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();

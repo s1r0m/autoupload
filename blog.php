@@ -2,8 +2,13 @@
 require_once 'vendor/autoload.php';
 
 $client = new Google_Client();
-$client->setClientId('53692494341-nomiqu7c6gtfbu7dqu6hcv5nrgjh9ae1.apps.googleusercontent.com');
-$client->setClientSecret('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');
+//thealonetis
+//$client->setClientId('53692494341-nomiqu7c6gtfbu7dqu6hcv5nrgjh9ae1.apps.googleusercontent.com');
+//$client->setClientSecret('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');
+
+//cloudair
+$client->setClientId('860987439099-53dt8ovoufc7qo9pfo7qn0ntl328hg8f.apps.googleusercontent.com');
+$client->setClientSecret('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');
 $client->setRedirectUri('https://blogger-jegv.onrender.com/blog.php');
 $client->addScope('https://www.googleapis.com/auth/blogger');
 
@@ -284,6 +289,18 @@ try {
   $contant = str_replace('*','',summ($content));
   }
   if(str_contains($contant,"и"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"ó"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"ú"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,"site administrator"))
   {
   $contant = str_replace('*','',summ($content));
   }

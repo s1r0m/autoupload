@@ -308,6 +308,10 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
+  if(str_contains($contant,"403"))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
   
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();

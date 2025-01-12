@@ -126,7 +126,7 @@ if (!empty($inshortsData['data']['news_list'])) {
             die("Error generating image: " . implode("\n", $output));
         }
 
-$uploadsrv = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json");
+$uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
 
         // Upload image to external server
         $uploadUrl = $uploadsrv."/upload.php";
@@ -141,7 +141,7 @@ $uploadsrv = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/h
 
         echo $uploadResponse;
         
- $accessToken = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/insta.json");
+ $accessToken = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/insta.json"));
 
         // Create Instagram media container
         $mediaContainerUrl = "https://graph.instagram.com/me/media";

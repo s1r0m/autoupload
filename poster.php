@@ -73,7 +73,7 @@ if (count($mediaIds) !== 5) {
     die("Error: Less than 5 valid media IDs found. Found " . count($mediaIds));
 }
 
- $accessToken = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/insta.json");
+ $accessToken = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/insta.json"));
 
 // Step 4: Create a carousel container on Instagram
 $carouselData = array_map('intval', $mediaIds); // Ensure media IDs are integers

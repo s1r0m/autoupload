@@ -109,8 +109,9 @@ $outputFile = "thrd$titleMd5.jpeg";
             die("Error generating image: " . implode("\n", $output));
         }
 
+$uploadsrv = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json");
         // Upload image to external server
-        $uploadUrl = "https://hosting-db4b.onrender.com/upload.php";
+        $uploadUrl = $uploadsrv."/upload.php";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uploadUrl);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -122,11 +123,11 @@ $outputFile = "thrd$titleMd5.jpeg";
 
         echo $uploadResponse."\n";
         
-
+ $accessToken = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/thread.json");
         
         $url = "https://graph.threads.net/me/threads";
 $url .= "?media_type=IMAGE";
-$url .= "&image_url=" . urlencode("https://hosting-db4b.onrender.com/".$outputFile);
+$url .= "&image_url=" . urlencode($uploadsrv."/".$outputFile);
 $url .= "&text=" . urlencode($content."\n\n".$tags);
 $url .= "&access_token=".$accessToken;
 

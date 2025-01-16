@@ -125,6 +125,7 @@ EXPOSE 8000
 # Start PHP server
 #RUN nohup php -S 0.0.0.0:8000 -c /php.ini > server.log 2>&1 &
 RUN npm install puppeteer
+RUN npm install fluent-ffmpeg
 RUN npm install puppeteer-extra puppeteer-extra-plugin-stealth
 
 # Default command

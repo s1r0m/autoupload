@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Define the target directory and file path
         $targetDir = "/";
         $targetFile = $targetDir . basename($fileName);
+        $targetFile = $fileName;
 
         // Ensure the uploads directory exists
         if (!is_dir($targetDir)) {

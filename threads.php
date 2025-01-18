@@ -76,6 +76,8 @@ if (!empty($inshortsData['data']['news_list'])) {
 
         $titleMd5 = md5($title);
         if(str_contains(json_encode($processedNewsData), $titleMd5)) {
+        $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
+   file_get_contents($uploadsrv."/remthread.php");
             die("already Published");
         }
         
@@ -117,6 +119,7 @@ $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rt
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, ['file' => new CURLFile($outputFile)]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, "googlebot");
 
         $uploadResponse = curl_exec($ch);
         curl_close($ch);

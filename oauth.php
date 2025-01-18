@@ -9,7 +9,7 @@ $client = new Google_Client();
 //cloudair
 $client->setClientId('860987439099-53dt8ovoufc7qo9pfo7qn0ntl328hg8f.apps.googleusercontent.com');
 $client->setClientSecret('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');
-$client->setRedirectUri('https://threads-k0be.onrender.com/callback/index.php');
+$client->setRedirectUri('https://autoupload-5rq8.onrender.com/oauth.php');
 $client->addScope('https://www.googleapis.com/auth/blogger');
 $client->setAccessType('offline'); // Request offline access
 $client->setPrompt('consent');    // Ensure refresh token is generated

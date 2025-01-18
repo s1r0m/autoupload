@@ -82,14 +82,14 @@ if (!empty($inshortsData['data']['news_list'])) {
         // Skip if news is already processed (exists in /inshorts.json)
         if (str_contains(json_encode($processedNewsData), $titleMd5)) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
-   file_get_contents($uploadsrv."/reminsta.php");
+   echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
             continue;
         }
 
         // Check if MD5 hash key exists in /inmd5.json
         if (isset($md5Data[$titleMd5]) && !empty($md5Data[$titleMd5])) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
-   file_get_contents($uploadsrv."/reminsta.php");
+  echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
             continue;
         }
 

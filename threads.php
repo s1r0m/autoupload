@@ -77,7 +77,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         $titleMd5 = md5($title);
         if(str_contains(json_encode($processedNewsData), $titleMd5)) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
-   file_get_contents($uploadsrv."/remthread.php");
+   echo file_get_contents($uploadsrv."/remthread.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
             die("already Published");
         }
         

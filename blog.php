@@ -320,6 +320,30 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
+  if(str_contains($contant,'javascript'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'JavaScript'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'Javascript'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'Website'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'website'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'WebSite'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
   
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();

@@ -4,6 +4,8 @@ const path = require('path');
 
 (async () => {
     const htmlFile = 'threads.html';
+    const width = 1080;
+    const height = 1080;
 
     // Check for the output image name as a command-line argument
     const args = process.argv.slice(2);
@@ -33,27 +35,18 @@ const path = require('path');
     });
     const page = await browser.newPage();
 
-    // Load the HTML content first
+    // Set viewport for 1080x1080 resolution
+    await page.setViewport({ width, height });
+
+    // Load the HTML content
     await page.setContent(htmlContent, { waitUntil: 'load' });
 
-    // Get the full height of the page content
-    const bodyHandle = await page.$('body');
-    const { height } = await bodyHandle.boundingBox();
-    await bodyHandle.dispose();
-
-    // Set viewport to match the content height (width can remain fixed)
-    await page.setViewport({
-        width: 1080,
-        height: Math.ceil(height),
-        deviceScaleFactor: 1
-    });
-
-    // Take a screenshot of the full page
+    // Take a screenshot of the page and save it as a JPEG
     await page.screenshot({
         path: outputImage,
         type: 'jpeg',
         quality: 100, // High quality for HD
-        fullPage: true // Capture the entire page content
+        clip: { x: 0, y: 0, width, height } // Ensure the image is 1080x1080
     });
 
     console.log(`Image saved as "${outputImage}"`);

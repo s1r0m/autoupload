@@ -94,28 +94,76 @@ if (!empty($inshortsData['data']['news_list'])) {
         }
 
         // Create HTML template for news
-        $htmlTemplate = "
-            <div style='position: relative; width: 100%; height: 100%; background: url(\"$imageUrl\") no-repeat center center; background-size: cover; font-family: Arial, sans-serif;'>
+                $htmlTemplate = "
+<div style='position: relative; width: 100%; height: 100%; min-height: 600px; background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(\"$imageUrl\") no-repeat center center; background-size: cover; font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; border: 3px solid #FFD700;'>
+    
+    <!-- Gradient Overlay for Depth -->
+    <div style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%); z-index: 0;'></div>
+    
     <!-- Title Section -->
-    <div style='position: absolute; top: 100px; left: 50px; right: 50px; text-align: center;'>
-        <h1 style='font-size: 40px; font-weight: bold; color: black; background: linear-gradient(90deg, yellow, transparent); padding: 10px; margin: 0; display: inline-block; font-family: Georgia, serif;'>
+    <div style='position: relative; padding: 60px 50px 0; z-index: 1;'>
+        <h1 style='font-size: 50px; font-weight: 700; color: #fff; text-shadow: 2px 2px 12px rgba(0,0,0,0.7); margin: 0; line-height: 1.2; font-family: \"Playfair Display\", Georgia, serif; border-left: 6px solid #FFD700; padding-left: 20px;'>
             $title
         </h1>
+        <div style='height: 4px; width: 120px; background: #FFD700; margin: 20px 0 0 25px;'></div>
     </div>
 
     <!-- Content Section -->
-    <div style='position: absolute; bottom: 50px; left: 50px; right: 50px; text-align: center;'>
-        <p style='font-size: 40px; color: white; font-style: italic; background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;'>
-            $content
-        </p>
+<div style='position: relative; padding: 0 50px; z-index: 1; margin-top: auto; margin-bottom: 20px;'>
+    <p style='
+        font-size: 36px;
+        color: #fff;
+        line-height: 1.5;
+        font-style: italic;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+        padding: 35px;
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+        border-left: 6px solid #FFD700;
+        font-family: \"Helvetica Neue\", sans-serif;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease-in-out;
+    ' onmouseover='this.style.transform=\"scale(1.05)\";' onmouseout='this.style.transform=\"scale(1)\";'>
+        $content
+    </p>
+</div>
+
+    <!-- Source and Branding Section -->
+    <div style='position: relative; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 30px 30px; z-index: 1;'>
+        <div style='font-size: 16px; color: rgba(255,255,255,0.7); font-style: italic;'>
+            Trusted News Source
+        </div>
+        <div style='display: flex; align-items: center; gap: 15px;'>
+            <span style='font-size: 18px; color: #fff; background: linear-gradient(90deg, #B8860B, #FFD700); padding: 8px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);'>
+                $sourceName
+            </span>
+            <div style='display: flex; gap: 12px; background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); padding: 10px 18px; border-radius: 30px; border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 0 12px rgba(255,255,255,0.3);'>
+
+                <!-- Emojis with Enhanced Borders & Effects -->
+                <span style=\"color: pink; font-size: 20px;\">
+                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8qgH_DwpwB3RVPYvsyqWiwmSu7Ac-EgPVQVlfn3aEDt2HnJNfhy97d0Z4&s=10\" 
+                        alt=\"💗\" width=\"24\" height=\"24\" 
+                        style=\"border-radius: 50%; object-fit: cover; border: 3px solid pink; box-shadow: 0 0 10px pink;\">
+                </span>
+                <span style=\"color: lime; font-size: 20px; font-family: &quot;Segoe UI Emoji&quot;, &quot;Apple Color Emoji&quot;, &quot;Noto Color Emoji&quot;, sans-serif;\">
+                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV1qYHkgt28EBzioD9HwPgHl-OqGmor7_n-6jYUiaXZ2gtumontNJus60&s=10\" 
+                        alt=\"➤\" width=\"24\" height=\"24\" 
+                        style=\"border-radius: 50%; object-fit: cover; border: 3px solid lime; box-shadow: 0 0 10px lime;\">
+                </span>
+                <span style=\"color: yellow; font-size: 20px;\">
+                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqkT0alytR-TT1HrmqrBgNQCa5Y1qHzfhK8PSHGIsH5lfOuz2A36zCt2Hk&s=10\" 
+                        alt=\"🛎️\" width=\"24\" height=\"24\" 
+                        style=\"border-radius: 50%; object-fit: cover; border: 3px solid yellow; box-shadow: 0 0 10px yellow;\">
+                </span>
+
+            </div>
+        </div>
     </div>
 
-    <!-- Source Section -->
-    <div style='position: absolute; bottom: 30px; right: 30px; text-align: right;'>
-        <span style='font-size: 18px; color: yellow; background: red; padding: 5px 10px; border-radius: 5px;'>
-            $sourceName
-        </span>
-    </div>
+    <!-- Subtle Pattern Overlay -->
+    <div style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(\"data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\' fill=\'%23ffffff\' fill-opacity=\'0.05\' fill-rule=\'evenodd\'/%3E%3C/svg%3E\'); z-index: 0; pointer-events: none;'></div>
+
 </div>";
 
         // Save HTML template to a file

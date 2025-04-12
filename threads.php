@@ -70,13 +70,14 @@ if (!empty($inshortsData['data']['news_list'])) {
         // Extract news details
         $sourceName = $newsItem['news_obj']['source_name'];
         $title = $newsItem['news_obj']['title'];
-        $content = $newsItem['news_obj']['content']." \n instagram.com/buzz.indica";
+        $content = $newsItem['news_obj']['content']."";
         $imageUrl = $newsItem['news_obj']['image_url'];
         $tags = implode(' ', array_map(fn($tag) => "#$tag", $newsItem['news_obj']['relevancy_tags']));
 
         $titleMd5 = md5($title);
         if(str_contains(json_encode($processedNewsData), $titleMd5)) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
+        exec("php remthread.php");
    echo file_get_contents($uploadsrv."/remthread.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
             die("already Published");
         }
@@ -105,6 +106,9 @@ if (!empty($inshortsData['data']['news_list'])) {
             Trusted News Source
         </div>
         <div style='display: flex; align-items: center; gap: 15px;'>
+        <span style='font-size: 18px; color: #fff; background: linear-gradient(135deg, #2c1a0a, #1a1005); padding: 8px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #FFD700; text-transform: uppercase; letter-spacing: 1px;'>
+                @Buzz.Indica
+            </span>
             <span style='font-size: 18px; color: #fff; background: linear-gradient(90deg, #B8860B, #FFD700); padding: 8px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);'>
                 $sourceName
             </span>
@@ -112,17 +116,17 @@ if (!empty($inshortsData['data']['news_list'])) {
 
                 <!-- Emojis with Enhanced Borders & Effects -->
                 <span style=\"color: pink; font-size: 20px;\">
-                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8qgH_DwpwB3RVPYvsyqWiwmSu7Ac-EgPVQVlfn3aEDt2HnJNfhy97d0Z4&s=10\" 
+                    <img src=\"https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f497.svg\" 
                         alt=\"💗\" width=\"24\" height=\"24\" 
                         style=\"border-radius: 50%; object-fit: cover; border: 3px solid pink; box-shadow: 0 0 10px pink;\">
                 </span>
                 <span style=\"color: lime; font-size: 20px; font-family: &quot;Segoe UI Emoji&quot;, &quot;Apple Color Emoji&quot;, &quot;Noto Color Emoji&quot;, sans-serif;\">
-                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV1qYHkgt28EBzioD9HwPgHl-OqGmor7_n-6jYUiaXZ2gtumontNJus60&s=10\" 
+                    <img src=\"https://cdn-icons-png.freepik.com/512/3545/3545766.png\" 
                         alt=\"➤\" width=\"24\" height=\"24\" 
                         style=\"border-radius: 50%; object-fit: cover; border: 3px solid lime; box-shadow: 0 0 10px lime;\">
                 </span>
                 <span style=\"color: yellow; font-size: 20px;\">
-                    <img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqkT0alytR-TT1HrmqrBgNQCa5Y1qHzfhK8PSHGIsH5lfOuz2A36zCt2Hk&s=10\" 
+                    <img src=\"https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f6ce.svg\" 
                         alt=\"🛎️\" width=\"24\" height=\"24\" 
                         style=\"border-radius: 50%; object-fit: cover; border: 3px solid yellow; box-shadow: 0 0 10px yellow;\">
                 </span>
@@ -194,7 +198,7 @@ curl_close($ch);
        
 
         if (!$mediaContainerId) {
-            die("Error creating media container: $mediaResponse");
+            die("Error creating media container: $response");
         }
         else
         {

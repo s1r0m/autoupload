@@ -44,7 +44,7 @@ const path = require('path');
     // Set viewport to match the content height (width can remain fixed)
     await page.setViewport({
         width: 1080,
-        height: Math.ceil(height),
+        height: 1080,
         deviceScaleFactor: 1
     });
 

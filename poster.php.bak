@@ -125,5 +125,4 @@ $newInshortsString = implode(" ", $selectedMd5Keys);
 sendRequest($inshortsUrl, 'PUT', ['value' => $newInshortsString]);
 
 echo "Processed MD5 keys: $newInshortsString\n";
-
 ?>

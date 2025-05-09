@@ -1,10 +1,18 @@
 <?php
+function generateUniqueValue() {
+    $intPart = random_int(1000, 9999);                 // 4-digit random integer
+    $decimalPart = number_format(mt_rand() / mt_getrandmax(), 8); // random decimal (8 digits)
+    $stringPart = bin2hex(random_bytes(5));            // 10-char random hex string
+    $timestamp = microtime(true);                      // precise current timestamp
+
+    return $intPart . '.' . $decimalPart . '.' . $stringPart . '.' . $timestamp;
+}
 
 // Firebase URLs
 $firebaseNewsUrl = 'https://flamegarun-default-rtdb.firebaseio.com/threads.json';
 
 // Inshorts API URL
-$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=1&include_card_data=true';
+$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit='.generateUniqueValue().'&include_card_data=true';
 
 // Access Token for Instagram
 $accessToken = base64_decode('VEhBQVNpMkI0N2VsRkJZbGRSVjA1bk5VODFURTB0V25WWWRrbFVhMnRqZG5KTUxWUXhiWEJPYTJGb1lWVkVSUzB3TlZGUWFUTnJlV2gyVDFOaWRXOUNiMFpBR2VpMTVOM0UwZUVoRlpBVkV4UnpKSVVHUmlZMnRST0daQVVWR016TTA1MGRrcHRZMnhvTVdNd2JVbFpBUmxsbFRWcGllRFpBalZFeHFOMk5PTmxWRVIxcFJVMHRVU21aQWFRWEl5T0ZKWVNXc1pE');
@@ -40,12 +48,109 @@ function sendRequest($url, $method, $data = null)
     return $response;
 }
 
+
+function generateRandomNumber($length) {
+    $digits = '0123456789';
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $digits[rand(0, strlen($digits) - 1)];
+    }
+    return $result;
+}
+
+function generateRandomHex($length) {
+    $chars = '0123456789abcdef';
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    return $result;
+}
+
+function generateRandomCookieString() {
+    // Randomize _ga value
+    $ga_version = "GA1.1";
+    $ga_random1 = generateRandomNumber(10);
+    $ga_random2 = generateRandomNumber(10);
+    $ga_value = "{$ga_version}.{$ga_random1}.{$ga_random2}";
+    
+    // Randomize _ga_L7P7D50590 value
+    $gs_version = "GS2.1";
+    $prefix = "s" . generateRandomNumber(10);
+    $o = "o" . rand(1, 9);
+    $g = "g" . rand(1, 9);
+    $t = "t" . generateRandomNumber(10);
+    $j = "j" . rand(1, 9);
+    $l = "l" . rand(0, 9);
+    $h = "h" . rand(0, 9);
+    $gs_value = "{$gs_version}.{$prefix}\${$o}\${$g}\${$t}\${$j}\${$l}\${$h}";
+    
+    return "_ga={$ga_value}; _ga_L7P7D50590={$gs_value}; _tenant=ENGLISH";
+}
+
+function generateRandomUserAgent() {
+    // Randomize browser versions
+    $chromeVersion = rand(100, 130) . '.0.' . rand(1000, 9999) . '.' . rand(10, 99);
+    $safariVersion = rand(605, 610) . '.' . rand(1, 15) . '.' . rand(1, 15);
+    $firefoxVersion = rand(100, 120) . '.0';
+
+    // Randomize OS versions
+    $windowsVersion = '10.0';
+    $macOSVersion = '10_' . rand(11, 16) . '_' . rand(1, 7);
+    $androidVersion = rand(8, 14);
+    $iOSVersion = '16_' . rand(0, 5);
+
+    // Random device models (for mobile)
+    $androidDevices = ['SM-A505FN', 'SM-G975F', 'Pixel 6', 'Redmi Note 10'];
+    $iOSDevices = ['iPhone14,3', 'iPhone15,2', 'iPad13,1'];
+
+    // Randomize build numbers (e.g., "Build/XYZ123")
+    $buildNumber = 'Build/' . substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6);
+
+    // Randomize browser choice
+    $browser = rand(0, 2);
+    switch ($browser) {
+        case 0: // Chrome (Windows/Mac/Linux)
+            $osChoice = rand(0, 2);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Windows NT $windowsVersion; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            } elseif ($osChoice === 1) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            } else {
+                return "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            }
+            break;
+        case 1: // Safari (Mac/iOS)
+            $osChoice = rand(0, 1);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion) AppleWebKit/$safariVersion (KHTML, like Gecko) Version/" . rand(15, 17) . ".0 Safari/$safariVersion";
+            } else {
+                $device = $iOSDevices[array_rand($iOSDevices)];
+                return "Mozilla/5.0 ($device; CPU iPhone OS $iOSVersion like Mac OS X) AppleWebKit/$safariVersion (KHTML, like Gecko) Version/" . rand(15, 17) . ".0 Mobile/15E148 Safari/$safariVersion";
+            }
+            break;
+        case 2: // Firefox (Windows/Mac/Linux)
+            $osChoice = rand(0, 2);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Windows NT $windowsVersion; Win64; x64; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            } elseif ($osChoice === 1) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            } else {
+                return "Mozilla/5.0 (X11; Linux x86_64; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            }
+            break;
+    }
+}
+
 // Fetch data from Inshorts API
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$inshortsApiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERAGENT, generateRandomUserAgent());
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Cookie: _ga=' . rand() . '; _tenant=ENGLISH; _ga_L7P7D50590=' . rand()
+    'Content-Type: application/json',
+    'User-Agent: '.generateRandomUserAgent(),
+    'Cookie: '.generateRandomCookieString()
 ]);
 $response = curl_exec($ch);
 //echo $response;
@@ -225,7 +330,7 @@ echo "Carousel published successfully with ID: " . $publishResult['id'] . "\n";
 sendRequest($firebaseNewsUrl, 'PUT', ['value' => $titleMd5]);
 
         echo "\n\nSaved In Database";
-        
+        die("work done");
         }
         }
         else

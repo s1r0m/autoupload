@@ -1,11 +1,31 @@
 <?php
 
+function remin()
+{
+$uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
+        echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
+}
+$response = file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/inmd5.json");
+if($response == "null")
+{
+Echo "here: ".$response;
+remin();
+}
 // Firebase URLs
 $firebaseNewsUrl = 'https://flamegarun-default-rtdb.firebaseio.com/inshorts.json';
 $firebaseMd5Url = 'https://flamegarun-default-rtdb.firebaseio.com/inmd5.json';
 
+function generateUniqueValue() {
+    $intPart = random_int(1000, 9999);                 // 4-digit random integer
+    $decimalPart = number_format(mt_rand() / mt_getrandmax(), 8); // random decimal (8 digits)
+    $stringPart = bin2hex(random_bytes(5));            // 10-char random hex string
+    $timestamp = microtime(true);                      // precise current timestamp
+
+    return $intPart . '.' . $decimalPart . '.' . $stringPart . '.' . $timestamp;
+}
+
 // Inshorts API URL
-$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit=3&include_card_data=true';
+$inshortsApiUrl = 'https://inshorts.com/api/undefined/en/news?category=all_news&max_limit='.generateUniqueValue().'&include_card_data=true';
 
 // Access Token for Instagram
 $accessToken = base64_decode('SUdRV1JQUzFsdVpBM0pvU1hkRE16VlJRa1Z6UlhGNGNVVTFPV0pvZVdjNGN6RmhOVVUwUW1SZkxXdFVUbDlNYTBoUVZYaFVSalZRVTI1UGNHZHVVRkZJT0dKMllXbFBhVlpBdlJIQTRRemx4TFVKQlZ6Rm9XWGxrYVZjd2FXRlNiMHBCVkZBMFFrZzJXRk5xWXkxeGFVTkRhelYyYVV4eVFVRVpE');
@@ -41,14 +61,111 @@ function sendRequest($url, $method, $data = null)
     return $response;
 }
 
+function generateRandomNumber($length) {
+    $digits = '0123456789';
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $digits[rand(0, strlen($digits) - 1)];
+    }
+    return $result;
+}
+
+function generateRandomHex($length) {
+    $chars = '0123456789abcdef';
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+        $result .= $chars[rand(0, strlen($chars) - 1)];
+    }
+    return $result;
+}
+
+function generateRandomCookieString() {
+    // Randomize _ga value
+    $ga_version = "GA1.1";
+    $ga_random1 = generateRandomNumber(10);
+    $ga_random2 = generateRandomNumber(10);
+    $ga_value = "{$ga_version}.{$ga_random1}.{$ga_random2}";
+    
+    // Randomize _ga_L7P7D50590 value
+    $gs_version = "GS2.1";
+    $prefix = "s" . generateRandomNumber(10);
+    $o = "o" . rand(1, 9);
+    $g = "g" . rand(1, 9);
+    $t = "t" . generateRandomNumber(10);
+    $j = "j" . rand(1, 9);
+    $l = "l" . rand(0, 9);
+    $h = "h" . rand(0, 9);
+    $gs_value = "{$gs_version}.{$prefix}\${$o}\${$g}\${$t}\${$j}\${$l}\${$h}";
+    
+    return "_ga={$ga_value}; _ga_L7P7D50590={$gs_value}; _tenant=ENGLISH";
+}
+
+function generateRandomUserAgent() {
+    // Randomize browser versions
+    $chromeVersion = rand(100, 130) . '.0.' . rand(1000, 9999) . '.' . rand(10, 99);
+    $safariVersion = rand(605, 610) . '.' . rand(1, 15) . '.' . rand(1, 15);
+    $firefoxVersion = rand(100, 120) . '.0';
+
+    // Randomize OS versions
+    $windowsVersion = '10.0';
+    $macOSVersion = '10_' . rand(11, 16) . '_' . rand(1, 7);
+    $androidVersion = rand(8, 14);
+    $iOSVersion = '16_' . rand(0, 5);
+
+    // Random device models (for mobile)
+    $androidDevices = ['SM-A505FN', 'SM-G975F', 'Pixel 6', 'Redmi Note 10'];
+    $iOSDevices = ['iPhone14,3', 'iPhone15,2', 'iPad13,1'];
+
+    // Randomize build numbers (e.g., "Build/XYZ123")
+    $buildNumber = 'Build/' . substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6);
+
+    // Randomize browser choice
+    $browser = rand(0, 2);
+    switch ($browser) {
+        case 0: // Chrome (Windows/Mac/Linux)
+            $osChoice = rand(0, 2);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Windows NT $windowsVersion; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            } elseif ($osChoice === 1) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            } else {
+                return "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion Safari/537.36";
+            }
+            break;
+        case 1: // Safari (Mac/iOS)
+            $osChoice = rand(0, 1);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion) AppleWebKit/$safariVersion (KHTML, like Gecko) Version/" . rand(15, 17) . ".0 Safari/$safariVersion";
+            } else {
+                $device = $iOSDevices[array_rand($iOSDevices)];
+                return "Mozilla/5.0 ($device; CPU iPhone OS $iOSVersion like Mac OS X) AppleWebKit/$safariVersion (KHTML, like Gecko) Version/" . rand(15, 17) . ".0 Mobile/15E148 Safari/$safariVersion";
+            }
+            break;
+        case 2: // Firefox (Windows/Mac/Linux)
+            $osChoice = rand(0, 2);
+            if ($osChoice === 0) {
+                return "Mozilla/5.0 (Windows NT $windowsVersion; Win64; x64; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            } elseif ($osChoice === 1) {
+                return "Mozilla/5.0 (Macintosh; Intel Mac OS X $macOSVersion; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            } else {
+                return "Mozilla/5.0 (X11; Linux x86_64; rv:$firefoxVersion) Gecko/20100101 Firefox/$firefoxVersion";
+            }
+            break;
+    }
+}
+
 // Fetch data from Inshorts API
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$inshortsApiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERAGENT, generateRandomUserAgent());
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Cookie: _ga=' . rand() . '; _tenant=ENGLISH; _ga_L7P7D50590=' . rand()
+    'Content-Type: application/json',
+    'User-Agent: '.generateRandomUserAgent(),
+    'Cookie: '.generateRandomCookieString()
 ]);
 $response = curl_exec($ch);
+//echo $response;
 if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
 } else {
@@ -83,15 +200,16 @@ if (!empty($inshortsData['data']['news_list'])) {
         if (str_contains(json_encode($processedNewsData), $titleMd5)) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
         exec("php reminsta.php");
-   echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
-            continue;
+   //echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
+            //continue;
+            die("Already Uploaded: ".$content);
         }
 
         // Check if MD5 hash key exists in /inmd5.json
         if (isset($md5Data[$titleMd5]) && !empty($md5Data[$titleMd5])) {
         $uploadsrv = str_replace('"','',file_get_contents("https://flamegarun-default-rtdb.firebaseio.com/hostsrv.json"));
         exec("php reminsta.php");
-  echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
+  //echo file_get_contents($uploadsrv."/reminsta.php", false, stream_context_create(["http" => ["header" => "User-Agent: googlebot"]]));
             continue;
         }
 
@@ -138,7 +256,7 @@ if (!empty($inshortsData['data']['news_list'])) {
         </div>
         <div style='display: flex; align-items: center; gap: 15px;'>
         <span style='font-size: 18px; color: #fff; background: linear-gradient(135deg, #2c1a0a, #1a1005); padding: 8px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #FFD700; text-transform: uppercase; letter-spacing: 1px;'>
-                @Buzz.Indica
+                Buzz indica
             </span>
             <span style='font-size: 18px; color: #fff; background: linear-gradient(90deg, #B8860B, #FFD700); padding: 8px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2);'>
                 $sourceName

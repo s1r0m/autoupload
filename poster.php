@@ -40,6 +40,8 @@ $inmd5Data = json_decode($response, true);
 
 // Check if the total number of key-value pairs is more than 9
 if (!is_array($inmd5Data) || count($inmd5Data) <= 9) {
+exec("php reel.php",$reel);
+Print_r($reel);
     die("Not enough keys to process. Found " . count($inmd5Data) . " key-value pairs.");
 }
 

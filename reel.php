@@ -188,7 +188,7 @@ if ($returnCode === 0) {
         echo "\n\n".$mediaContainerId."\n\n";
         echo $mediaResponse;
         
-        sleep(13);
+        sleep(15);
         
         $publishUrl = 'https://graph.instagram.com/me/media_publish';
         

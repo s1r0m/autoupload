@@ -449,6 +449,18 @@ try {
   {
   $contant = str_replace('*','',summ($content));
   }
+  if(str_contains($contant,'CAPTCHA'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'captcha'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
+  if(str_contains($contant,'Captcha'))
+  {
+  $contant = str_replace('*','',summ($content));
+  }
   
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
